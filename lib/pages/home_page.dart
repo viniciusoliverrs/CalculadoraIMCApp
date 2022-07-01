@@ -1,7 +1,9 @@
-import 'package:calculadora_imc_app/controllers/home_controller.dart';
 import 'package:flutter/material.dart';
 
+import '../controllers/home_controller.dart';
 import '../repositories/calculadora_repository.dart';
+import '../theme/appcolors.dart';
+import '../theme/appsizes.dart';
 import '../widgets/custom_field_widget.dart';
 
 class HomePage extends StatefulWidget {
@@ -36,7 +38,7 @@ class _HomePageState extends State<HomePage> {
       appBar: AppBar(
         title: const Text("Calculadora de IMC"),
         centerTitle: true,
-        backgroundColor: Colors.green,
+        backgroundColor: AppColors.primary,
         actions: <Widget>[
           IconButton(
             icon: const Icon(Icons.refresh),
@@ -44,7 +46,7 @@ class _HomePageState extends State<HomePage> {
           ),
         ],
       ),
-      backgroundColor: Colors.white,
+      backgroundColor: AppColors.light,
       body: SingleChildScrollView(
         padding: const EdgeInsets.fromLTRB(10.0, 0.0, 10.0, 0.0),
         child: Column(
@@ -54,8 +56,11 @@ class _HomePageState extends State<HomePage> {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.stretch,
                 children: [
-                  const Icon(Icons.person_outline,
-                      size: 120.0, color: Colors.green),
+                  const Icon(
+                    Icons.person_outline,
+                    size: AppSizes.iconSizeLarge,
+                    color: AppColors.primary,
+                  ),
                   CustomFieldWidget(
                     controller: pesoController,
                     label: "Peso (kg)",
@@ -71,7 +76,7 @@ class _HomePageState extends State<HomePage> {
                   Padding(
                       padding: const EdgeInsets.only(top: 10.0, bottom: 10.0),
                       child: SizedBox(
-                        height: 50.0,
+                        height: MediaQuery.of(context).size.width * 0.15,
                         child: ElevatedButton(
                           onPressed: () {
                             if (formKey.currentState!.validate()) {
@@ -84,11 +89,14 @@ class _HomePageState extends State<HomePage> {
                           },
                           child: const Text(
                             "Calcular",
-                            style:
-                                TextStyle(color: Colors.white, fontSize: 25.0),
+                            style: TextStyle(
+                              color: Colors.white,
+                              fontSize: AppSizes.fontSizeLarge,
+                            ),
                           ),
-                          style:
-                              ElevatedButton.styleFrom(primary: Colors.green),
+                          style: ElevatedButton.styleFrom(
+                            primary: AppColors.primary,
+                          ),
                         ),
                       )),
                 ],
@@ -99,8 +107,10 @@ class _HomePageState extends State<HomePage> {
               builder: (context, infoText, child) {
                 return Text(infoText,
                     textAlign: TextAlign.center,
-                    style:
-                        const TextStyle(color: Colors.green, fontSize: 25.0));
+                    style: const TextStyle(
+                      color: AppColors.primary,
+                      fontSize: AppSizes.fontSizeLarge,
+                    ));
               },
             ),
           ],
