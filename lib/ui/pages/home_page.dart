@@ -1,7 +1,7 @@
+import 'package:calculadora_imc_app/main.dart';
 import 'package:flutter/material.dart';
 
 import '../controllers/home_controller.dart';
-import '../repositories/calculadora_repository.dart';
 import '../theme/appcolors.dart';
 import '../theme/appsizes.dart';
 import '../widgets/custom_field_widget.dart';
@@ -17,8 +17,7 @@ class _HomePageState extends State<HomePage> {
   TextEditingController pesoController = TextEditingController();
   TextEditingController alturaController = TextEditingController();
   final GlobalKey<FormState> formKey = GlobalKey<FormState>();
-  final HomeController _homeController =
-      HomeController(CalculadoraRepository());
+  final HomeController _homeController = getIt<HomeController>();
 
   void _resetFields() {
     pesoController.clear();

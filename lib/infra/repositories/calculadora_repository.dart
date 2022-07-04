@@ -1,6 +1,6 @@
 import 'dart:ffi';
 
-import 'package:calculadora_imc_app/repositories/interfaces/icalculadora_repository.dart';
+import 'package:calculadora_imc_app/domain/repositories/icalculadora_repository.dart';
 
 class CalculadoraRepository implements ICalculadoraRepository {
   @override

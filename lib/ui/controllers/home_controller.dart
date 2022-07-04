@@ -1,4 +1,4 @@
-import 'package:calculadora_imc_app/repositories/interfaces/icalculadora_repository.dart';
+import 'package:calculadora_imc_app/domain/repositories/icalculadora_repository.dart';
 import 'package:flutter/cupertino.dart';
 
 class HomeController {
