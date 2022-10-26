@@ -1,5 +1,4 @@
-import 'package:calculadora_imc_app/domain/repositories/icalculadora_repository.dart';
-import 'package:calculadora_imc_app/infra/repositories/calculadora_repository.dart';
+import 'package:calculadora_imc_app/src/core/infra/repositories/calculadora_repository.dart';
 import 'package:flutter_test/flutter_test.dart';
 
 void main() {

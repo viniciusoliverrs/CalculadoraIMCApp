@@ -1,15 +1,10 @@
 import "package:flutter/material.dart";
-import 'package:get_it/get_it.dart';
+import 'package:flutter_modular/flutter_modular.dart';
 
-import 'appwidget.dart';
-import 'infra/repositories/calculadora_repository.dart';
-import 'ui/controllers/home_controller.dart';
-GetIt getIt = GetIt.instance;
-void setup() {
-  getIt.registerFactory<HomeController>(
-      () => HomeController(CalculadoraRepository()));
-}
+import 'src/app_module.dart';
+import 'src/app_widget.dart';
 
 void main() {
-  runApp(const AppWidget());
+  Modular.to.addListener(() => debugPrint(Modular.to.path));
+  runApp(ModularApp(module: AppModule(), child: const AppWidget()));
 }

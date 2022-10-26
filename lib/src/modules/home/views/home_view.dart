@@ -1,34 +1,36 @@
-import 'package:calculadora_imc_app/main.dart';
 import 'package:flutter/material.dart';
 
+import '../../../core/presenter/theme/appcolors.dart';
+import '../../../core/presenter/theme/appsizes.dart';
+import '../../../core/presenter/widgets/common_text_field.dart';
 import '../controllers/home_controller.dart';
-import '../theme/appcolors.dart';
-import '../theme/appsizes.dart';
-import '../widgets/custom_field_widget.dart';
 
-class HomePage extends StatefulWidget {
-  const HomePage({Key? key}) : super(key: key);
+class HomeView extends StatefulWidget {
+  final HomeController homeController;
+   HomeView({
+    Key? key,
+    required this.homeController,
+  }) : super(key: key);
 
   @override
-  State<HomePage> createState() => _HomePageState();
+  State<HomeView> createState() => _HomeViewState();
 }
 
-class _HomePageState extends State<HomePage> {
+class _HomeViewState extends State<HomeView> {
   TextEditingController pesoController = TextEditingController();
   TextEditingController alturaController = TextEditingController();
   final GlobalKey<FormState> formKey = GlobalKey<FormState>();
-  final HomeController _homeController = getIt<HomeController>();
 
   void _resetFields() {
     pesoController.clear();
     alturaController.clear();
-    _homeController.reset();
+    widget.homeController.reset();
   }
 
   @override
   void initState() {
     super.initState();
-    _homeController.reset();
+    widget.homeController.reset();
   }
 
   @override
@@ -60,13 +62,13 @@ class _HomePageState extends State<HomePage> {
                     size: AppSizes.iconSizeLarge,
                     color: AppColors.primary,
                   ),
-                  CustomFieldWidget(
+                  CommonTextField(
                     controller: pesoController,
                     label: "Peso (kg)",
                     infoText: "Informe seu peso!",
                     formKey: formKey,
                   ),
-                  CustomFieldWidget(
+                  CommonTextField(
                     controller: alturaController,
                     label: "Altura (m)",
                     infoText: "Informe sua altura!",
@@ -81,7 +83,7 @@ class _HomePageState extends State<HomePage> {
                             if (formKey.currentState!.validate()) {
                               var altura =
                                   alturaController.text.replaceAll(",", ".");
-                              _homeController.calcular(
+                              widget.homeController.calcular(
                                   double.parse(pesoController.text),
                                   double.parse(altura));
                             }
@@ -94,7 +96,7 @@ class _HomePageState extends State<HomePage> {
                             ),
                           ),
                           style: ElevatedButton.styleFrom(
-                            primary: AppColors.primary,
+                            backgroundColor: AppColors.primary,
                           ),
                         ),
                       )),
@@ -102,7 +104,7 @@ class _HomePageState extends State<HomePage> {
               ),
             ),
             ValueListenableBuilder<String>(
-              valueListenable: _homeController.infoText,
+              valueListenable: widget.homeController.infoText,
               builder: (context, infoText, child) {
                 return Text(infoText,
                     textAlign: TextAlign.center,
