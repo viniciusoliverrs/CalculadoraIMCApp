@@ -2,12 +2,12 @@ import 'package:flutter/material.dart';
 
 import '../../../core/presenter/theme/appcolors.dart';
 import '../../../core/presenter/theme/appsizes.dart';
-import '../../../core/presenter/widgets/common_text_field.dart';
+import '../../../core/presenter/common_widgets/common_text_field.dart';
 import '../controllers/home_controller.dart';
 
 class HomeView extends StatefulWidget {
   final HomeController homeController;
-   HomeView({
+  const HomeView({
     Key? key,
     required this.homeController,
   }) : super(key: key);
@@ -17,22 +17,6 @@ class HomeView extends StatefulWidget {
 }
 
 class _HomeViewState extends State<HomeView> {
-  TextEditingController pesoController = TextEditingController();
-  TextEditingController alturaController = TextEditingController();
-  final GlobalKey<FormState> formKey = GlobalKey<FormState>();
-
-  void _resetFields() {
-    pesoController.clear();
-    alturaController.clear();
-    widget.homeController.reset();
-  }
-
-  @override
-  void initState() {
-    super.initState();
-    widget.homeController.reset();
-  }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -40,10 +24,10 @@ class _HomeViewState extends State<HomeView> {
         title: const Text("Calculadora de IMC"),
         centerTitle: true,
         backgroundColor: AppColors.primary,
-        actions: <Widget>[
+        actions: [
           IconButton(
             icon: const Icon(Icons.refresh),
-            onPressed: _resetFields,
+            onPressed: widget.homeController.resetar,
           ),
         ],
       ),
@@ -53,26 +37,31 @@ class _HomeViewState extends State<HomeView> {
         child: Column(
           children: [
             Form(
-              key: formKey,
+              key: widget.homeController.formKey,
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.stretch,
                 children: [
-                  const Icon(
-                    Icons.person_outline,
-                    size: AppSizes.iconSizeLarge,
-                    color: AppColors.primary,
-                  ),
                   CommonTextField(
-                    controller: pesoController,
+                    controller: widget.homeController.pesoController,
                     label: "Peso (kg)",
                     infoText: "Informe seu peso!",
-                    formKey: formKey,
+                    formKey: widget.homeController.formKey,
+                    validator: (value) {
+                      if (value!.isEmpty) {
+                        return "Informe seu peso!";
+                      }
+                    },
                   ),
                   CommonTextField(
-                    controller: alturaController,
+                    controller: widget.homeController.alturaController,
                     label: "Altura (m)",
                     infoText: "Informe sua altura!",
-                    formKey: formKey,
+                    formKey: widget.homeController.formKey,
+                    validator: (value) {
+                      if (value!.isEmpty) {
+                        return "Informe sua altura!";
+                      }
+                    },
                   ),
                   Padding(
                       padding: const EdgeInsets.only(top: 10.0, bottom: 10.0),
@@ -80,11 +69,14 @@ class _HomeViewState extends State<HomeView> {
                         height: MediaQuery.of(context).size.width * 0.15,
                         child: ElevatedButton(
                           onPressed: () {
-                            if (formKey.currentState!.validate()) {
-                              var altura =
-                                  alturaController.text.replaceAll(",", ".");
+                            if (widget.homeController.formKey.currentState!
+                                .validate()) {
+                              var altura = widget
+                                  .homeController.alturaController.text
+                                  .replaceAll(",", ".");
                               widget.homeController.calcular(
-                                  double.parse(pesoController.text),
+                                  double.parse(widget
+                                      .homeController.pesoController.text),
                                   double.parse(altura));
                             }
                           },

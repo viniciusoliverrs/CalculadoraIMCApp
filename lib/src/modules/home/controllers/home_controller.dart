@@ -2,21 +2,25 @@ import 'package:calculadora_imc_app/src/core/domain/repositories/icalculadora_re
 import 'package:flutter/cupertino.dart';
 
 class HomeController {
-  final ValueNotifier<double> _resultado = ValueNotifier(0);
-  final ValueNotifier<String> _infoText = ValueNotifier("Informe seus dados!");
-
+  late final ValueNotifier<double> _resultado;
+  late final ValueNotifier<String> _infoText;
+  late final TextEditingController pesoController;
+  late final TextEditingController alturaController;
+  late final GlobalKey<FormState> formKey;
 
   final ICalculadoraRepository calculadoraRepository;
 
-  HomeController(this.calculadoraRepository);
+  HomeController(this.calculadoraRepository) {
+    _resultado = ValueNotifier(0.0);
+    _infoText = ValueNotifier("");
+    pesoController = TextEditingController();
+    alturaController = TextEditingController();
+    formKey = GlobalKey<FormState>();
+  }
 
   get resultado => _resultado;
   get infoText => _infoText;
 
-  void reset() {
-    _resultado.value = 0;
-    _infoText.value = "Informe seus dados!";
-  }
 
   void calcular(double peso, double altura) {
     double imc = calculadoraRepository.calcularIMC(peso, altura);
@@ -24,5 +28,19 @@ class HomeController {
 
     _resultado.value = imc;
     _infoText.value = info;
+  }
+
+  void dispose() {
+    _resultado.dispose();
+    _infoText.dispose();
+    pesoController.dispose();
+    alturaController.dispose();
+  }
+
+  void resetar() {
+    pesoController.clear();
+    alturaController.clear();
+     _resultado.value = 0;
+    _infoText.value = "";
   }
 }
